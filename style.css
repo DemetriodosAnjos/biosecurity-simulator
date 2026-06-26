@@ -1,3 +1,6 @@
+/* ==========================================
+   Estilos Base / Desktop
+   ========================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -19,7 +22,7 @@ body {
 .quiz-container {
   background: #fff;
   width: 100%;
-  max-width: 650px;
+  max-width: 600px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -30,7 +33,7 @@ body {
 .carousel-track {
   display: flex;
   transition: transform 0.4s ease-in-out;
-  width: 620px; /* MODIFICADO: 20 perguntas = 2000% de largura total */
+  width: 100%; /* 20 perguntas = 2000% de largura total */
 }
 
 .quiz-card {
@@ -133,7 +136,7 @@ button#btn-submit {
    Media Query para Telas Pequenas (375px)
    Com quebra automática forçada em 280px
    ========================================== */
-@media (max-width: 375px) {
+@media (max-width: 320px) {
   body {
     padding: 15px 10px;
   }
@@ -143,15 +146,14 @@ button#btn-submit {
     border-radius: 6px;
   }
 
-  /* Limita o contêiner da pergunta e força a quebra */
   h3 {
     font-size: 1.1rem;
     margin-bottom: 15px;
     line-height: 1.4;
     max-width: 280px; /* Limite estrito de largura */
     width: 100%;
-    word-wrap: break-word; /* Força a quebra de palavras longas */
-    word-break: break-word; /* Garante compatibilidade entre navegadores */
+    word-wrap: break-word; /* Força quebra de palavras longas */
+    word-break: break-word;
     overflow-wrap: break-word;
   }
 
@@ -159,16 +161,15 @@ button#btn-submit {
     gap: 8px;
   }
 
-  /* Aplica as travas de quebra de linha no label da alternativa */
   .options label {
     padding: 10px;
     font-size: 0.9rem;
     line-height: 1.3;
     display: flex;
     align-items: flex-start;
-    max-width: 280px; /* Limite estrito de largura para a opção */
+    max-width: 280px; /* Limite estrito de largura */
     width: 100%;
-    white-space: normal; /* Garante que o texto quebre em várias linhas */
+    white-space: normal; /* Permite a dobra de linha */
     word-wrap: break-word;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -177,7 +178,7 @@ button#btn-submit {
   .options input[type="radio"] {
     margin-top: 3px;
     margin-right: 8px;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Impede o rádio de ser esmagado */
   }
 
   .quiz-controls {
@@ -190,7 +191,6 @@ button#btn-submit {
     font-size: 0.9rem;
   }
 
-  /* Garante que o painel de feedback também respeite o limite de segurança */
   #result-panel {
     margin-top: 20px;
     padding: 15px;
