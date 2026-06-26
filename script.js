@@ -312,23 +312,30 @@ btnPrev.addEventListener("click", () => {
   }
 });
 
-// Processamento do Resultado
+// Processamento do Resultado Corrigido para Mobile
 btnSubmit.addEventListener("click", () => {
   let correctCount = 0;
   let feedbackHTML = "";
 
+  // Força a validação segura de cada item
   quizData.forEach((data, index) => {
+    // Correção de seletor: escapa o nome para garantir que o mobile encontre o elemento
     const selected = document.querySelector(`input[name="q${index}"]:checked`);
-    const userAnswer = selected ? selected.value : null;
 
-    const isCorrect = userAnswer === data.correct;
+    // Garante string vazia ou o valor sem falhar o tipo de dado
+    const userAnswer =
+      selected && selected.value ? String(selected.value).trim() : "";
+    const isCorrect = userAnswer === String(data.correct).trim();
+
     if (isCorrect) correctCount++;
 
-    // No feedback final, exibe também a numeração de 1 a 20 correspondente à ordem que o usuário realizou
+    // Exibe "Não respondida" visualmente caso esteja vazio
+    const displayAnswer = userAnswer || "Não respondida";
+
     feedbackHTML += `
           <div class="feedback-item ${isCorrect ? "correct" : ""}">
               <p><strong>Pergunta ${index + 1}: ${data.question}</strong></p>
-              <p>Sua resposta: ${userAnswer || "Nenhuma"} | Certa: ${data.correct}</p>
+              <p>Sua resposta: ${displayAnswer} | Certa: ${data.correct}</p>
               <p><small>${data.description}</small></p>
           </div>
       `;
@@ -353,11 +360,19 @@ btnSubmit.addEventListener("click", () => {
       <hr style="margin:15px 0; border: 0; border-top: 1px solid #eee;">
   ` + feedbackHTML;
 
-  resultPanel.innerHTML = feedbackHTML;
+  // 1. Primeiro remove a classe oculta para o navegador mobile calcular as dimensões do bloco
   resultPanel.classList.remove("hidden");
+  resultPanel.innerHTML = feedbackHTML;
 
+  // 2. Desabilita os botões de controle
   btnSubmit.disabled = true;
   btnPrev.disabled = true;
 
-  resultPanel.scrollIntoView({ behavior: "smooth" });
+  // 3. Usa um setTimeout de 100ms para dar tempo do layout renderizar antes do scroll no celular
+  setTimeout(() => {
+    resultPanel.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 100);
 });
